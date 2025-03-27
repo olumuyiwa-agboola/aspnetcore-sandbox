@@ -2,14 +2,10 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using ConfigurationWithOptionsPattern.API.Extensions;
-using ConfigurationWithOptionsPattern.API.Validations;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOpenApi();
-
-builder.Services.AddOptionsWithFluentValidation<AccountInquiryApiSettings, 
-    AccountInquiryApiSettingsValidator>(AccountInquiryApiSettings.ConfigurationSection);
+builder.Services.ConfigureApplicationServices();
 
 var app = builder.Build();
 
