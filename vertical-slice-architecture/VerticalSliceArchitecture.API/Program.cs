@@ -2,14 +2,15 @@ using VerticalSliceArchitecture.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.ConfigureApplicationServices();
+builder.Services.AddRepositories();
+builder.Services.AddFluentValidators();
+builder.Services.AddApplicationOptions();
+builder.Services.AddOpenApiDocumentation();
 
 builder.Host.ConfigureSerilogLogger();
 
 var app = builder.Build();
 
-app.MountMiddlewares();
-
-app.MapMinimalEndpoints();
+app.ConfigureRequestPipeline();
 
 app.Run();

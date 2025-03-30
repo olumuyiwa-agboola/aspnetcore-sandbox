@@ -16,7 +16,7 @@ namespace VerticalSliceArchitecture.API.Filters
             {
                 if (argument == null)
                 {
-                    return Results.BadRequest("Request body cannot be null.");
+                    return Results.Problem("Request body cannot be null.", statusCode: 400);
                 }
 
                 var validatorType = typeof(IValidator<>).MakeGenericType(argument!.GetType());
@@ -36,7 +36,7 @@ namespace VerticalSliceArchitecture.API.Filters
                                 validationFailures += " | " + failure.PropertyName + ": " + failure.ErrorMessage;
                         }
 
-                        return Results.BadRequest(validationFailures);
+                        return Results.Problem(validationFailures, statusCode: 400);
                     }
                 }
             }

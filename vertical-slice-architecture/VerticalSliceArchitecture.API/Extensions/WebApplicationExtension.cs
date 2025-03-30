@@ -1,39 +1,42 @@
+using Scalar.AspNetCore;
+
 namespace VerticalSliceArchitecture.API.Extensions
 {
     /// <summary>
-    /// Contains the <see cref="MountMiddlewares"/> method which adds 
-    /// the required middlewares to the application's request pipeline.
+    /// Contains the <see cref="ConfigureRequestPipeline"/> method which adds 
+    /// the required middlewares and endpoints to the application's request pipeline.
     /// </summary>
     internal static class WebApplicationExtension
     {
         /// <summary>
-        /// Adds the required middlewares to the application's request pipeline.
+        /// Adds the required middlewares and endpoints to the application's request pipeline.
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-        internal static void MountMiddlewares(this WebApplication app)
+        internal static void ConfigureRequestPipeline(this WebApplication app)
         {
+            if (app.Environment.IsDevelopment())
+            {
+                app.MapOpenApi();
+                app.MapScalarApiReference(options =>
+                {
+                    options.DefaultFonts = false;
+                    options.Title = "Staff Rating API";
+                });
+
+                app.MapGet("/", () => Results.Redirect("/scalar/v1"))
+                    .ExcludeFromDescription();
+            }
+
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
 
-            //app.UseCors();
-
             app.UseAuthentication();
 
-            //app.UseAuthorization();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="app"></param>
-        /// <returns></returns>
-        internal static void MapMinimalEndpoints(this WebApplication app)
-        {
-            app.MapGroup("CrudApis")
-                .MapCrudApiEndpoints()
-                .WithTags("CrudApis");
+            app.MapGroup("Staff")
+                .MapStaffsEndpoints()
+                .WithTags("Staff");
         }
     }
 }

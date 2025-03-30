@@ -10,23 +10,20 @@ namespace VerticalSliceArchitecture.API.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="firstErrorOnly"></param>
         /// <returns></returns>
-        public static RouteHandlerBuilder Validate<T>(this RouteHandlerBuilder builder, bool firstErrorOnly = true)
+        public static RouteHandlerBuilder ValidateDataAnnotations<T>(this RouteHandlerBuilder builder, bool firstErrorOnly = true)
         {
             builder.AddEndpointFilter(async (invocationContext, next) =>
             {
-                if (!invocationContext.HttpContext.Request.Path.ToString().StartsWith("/swagger"))
+                var argument = invocationContext.Arguments.OfType<T>().FirstOrDefault();
+                var response = argument!.Validate();
+
+                if (!response.IsValid)
                 {
-                    var argument = invocationContext.Arguments.OfType<T>().FirstOrDefault();
-                    var response = argument!.DataAnnotationsValidate();
+                    string errorMessage = firstErrorOnly ?
+                                            response.Results.FirstOrDefault()!.ErrorMessage! :
+                                            string.Join("|", response.Results.Select(x => x.ErrorMessage));
 
-                    if (!response.IsValid)
-                    {
-                        string errorMessage = firstErrorOnly ?
-                                                response.Results.FirstOrDefault()!.ErrorMessage! :
-                                                string.Join("|", response.Results.Select(x => x.ErrorMessage));
-
-                        return Results.Problem(errorMessage, statusCode: 400);
-                    }
+                    return Results.Problem(errorMessage, statusCode: 400);
                 }
 
                 return await next(invocationContext);
@@ -35,7 +32,7 @@ namespace VerticalSliceArchitecture.API.Extensions
             return builder;
         }
 
-        private static (List<ValidationResult> Results, bool IsValid) DataAnnotationsValidate(this object model)
+        private static (List<ValidationResult> Results, bool IsValid) Validate(this object model)
         {
             var results = new List<ValidationResult>();
             var context = new ValidationContext(model);
