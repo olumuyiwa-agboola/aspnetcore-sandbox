@@ -21,7 +21,7 @@ namespace TransactionsService.API.Extensions
                 app.MapScalarApiReference(options =>
                 {
                     options.DefaultFonts = false;
-                    options.Title = "Staff Rating API";
+                    options.Title = "Fake Bank Transactions Service API";
                 });
 
                 app.MapGet("/", () => Results.Redirect("/scalar/v1"))

@@ -28,8 +28,16 @@ namespace TransactionsService.API.Extensions
                     document.Info = new()
                     {
                         Version = "v1",
-                        Title = "Staff Rating API",
-                        Description = "A simple API to manage staff ratings."
+                        Title = "Fake Bank Transactions Service API",
+                        Description = """
+                        The Fake Bank Transactions Service API provides a secure and scalable interface for managing 
+                        customer transactions within the Fake Bank ecosystem. This RESTful API allows authorized clients 
+                        to perform operations such as creating new transactions, retrieving transaction history, updating 
+                        transaction details, and managing transaction statuses.
+                        
+                        Designed with reliability and performance in mind, this service forms a core part of Fake Bank's 
+                        digital infrastructure, enabling seamless integration with internal systems and third-party services.
+                        """
                     };
 
                     return Task.CompletedTask;
