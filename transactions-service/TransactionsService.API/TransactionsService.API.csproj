@@ -13,12 +13,17 @@
 		<PackageReference Include="Serilog.AspNetCore" />
 		<PackageReference Include="Microsoft.Data.SqlClient" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\TransactionsService.Core\TransactionsService.Core.csproj" />
-	  <ProjectReference Include="..\TransactionsService.Infrastructure\TransactionsService.Infrastructure.csproj" />
+	  <ProjectReference Include="..\TransactionsService.Data\TransactionsService.Data.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Handlers\" />
 	</ItemGroup>
 
 </Project>

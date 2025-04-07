@@ -34,9 +34,9 @@ namespace TransactionsService.API.Extensions
 
             app.UseAuthentication();
 
-            app.MapGroup("Staff")
-                .MapStaffsEndpoints()
-                .WithTags("Staff");
+            app.MapGroup("transactions")
+                .MapTransactionEndpoints()
+                .WithTags("Transactions");
         }
     }
 }

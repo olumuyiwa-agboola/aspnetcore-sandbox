@@ -1,5 +1,5 @@
 using FluentValidation;
-using TransactionsService.Core.Models;
+using TransactionsService.Core.Utilities.Configuration;
 
 namespace TransactionsService.Core.Features.Validations
 {
@@ -7,8 +7,8 @@ namespace TransactionsService.Core.Features.Validations
     {
         public ConnectionStringsValidator()
         {
-            RuleFor(model => model.StaffRatingsDbConnectionString)
-                .NotEmpty().WithMessage($"{nameof(ConnectionStrings.StaffRatingsDbConnectionString)} is required");
+            RuleFor(model => model.TransactionsDbConnectionString)
+                .NotEmpty().WithMessage($"{nameof(ConnectionStrings.TransactionsDbConnectionString)} is required");
         }
     }
 }

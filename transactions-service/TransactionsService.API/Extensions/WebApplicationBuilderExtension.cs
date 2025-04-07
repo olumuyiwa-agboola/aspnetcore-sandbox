@@ -1,11 +1,10 @@
 using Serilog;
 using FluentValidation;
-using TransactionsService.Core.Models;
+using Microsoft.EntityFrameworkCore;
 using Serilog.Sinks.SystemConsole.Themes;
-using TransactionsService.API.Repositories;
-using TransactionsService.Core.Abstractions;
-using TransactionsService.Core.Features.Factories;
+using TransactionsService.Data.DatabaseContexts;
 using TransactionsService.Core.Features.Validations;
+using TransactionsService.Core.Utilities.Configuration;
 
 namespace TransactionsService.API.Extensions
 {
@@ -44,11 +43,15 @@ namespace TransactionsService.API.Extensions
                 });
             });
 
-            builder.Services.AddSingleton<IDbConnectionFactory, DbConnectionFactory>();
+            var transactionsDbConnectionString = builder.Configuration
+                .GetSection(ConnectionStrings.ConfigSection)
+                .Get<ConnectionStrings>()!
+                .TransactionsDbConnectionString;
 
-            builder.Services.AddScoped<IStaffsRepository, StaffsRepository>();
+            builder.Services.AddDbContext<TransactionsDbContext>(options => 
+                options.UseMySQL(transactionsDbConnectionString!));
 
-            builder.Services.AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<TransactionDetailsRequestValidator>();
 
             builder.Services.AddOptionsWithFluentValidation<ConnectionStrings, ConnectionStringsValidator>(ConnectionStrings.ConfigSection);
 
@@ -65,7 +68,7 @@ namespace TransactionsService.API.Extensions
             where TOptions : class, new() where TOptionsValidator : AbstractValidator<TOptions>
         {
             services.AddScoped<IValidator<TOptions>, TOptionsValidator>();
-
+            
             services.AddOptions<TOptions>()
                 .BindConfiguration(configurationSection)
                 .ValidateOptionsWithFluentValidation()

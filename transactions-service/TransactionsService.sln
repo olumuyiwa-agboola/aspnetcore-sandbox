@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransactionsService.API", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransactionsService.Core", "TransactionsService.Core\TransactionsService.Core.csproj", "{52770E45-AC64-474B-BFBA-068B71C0A9DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransactionsService.Infrastructure", "TransactionsService.Infrastructure\TransactionsService.Infrastructure.csproj", "{F551F176-8370-4FB3-A2DC-BC4FF74B0F25}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransactionsService.Data", "TransactionsService.Data\TransactionsService.Data.csproj", "{F551F176-8370-4FB3-A2DC-BC4FF74B0F25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
