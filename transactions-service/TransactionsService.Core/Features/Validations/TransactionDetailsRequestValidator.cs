@@ -8,8 +8,17 @@ namespace TransactionsService.Core.Features.Validations
         public TransactionDetailsRequestValidator()
         {
             RuleFor(model => model.Reference)
-                .Length(30).WithMessage($"{nameof(TransactionDetailsRequest.Reference)} must contain exaclty 30 characters")
+                .NotEmpty().WithMessage($"{nameof(TransactionDetailsRequest.Reference)} is required")
+                .Length(30).WithMessage($"{nameof(TransactionDetailsRequest.Reference)} must contain exaclty 30 digits")
                 .Matches(@"^\d+$").WithMessage($"{nameof(TransactionDetailsRequest.Reference)} must contain only digits");
+        }
+    }
+
+    public class PostTransactionRequestValidator : AbstractValidator<PostTransactionRequest>
+    {
+        public PostTransactionRequestValidator()
+        {
+            
         }
     }
 }

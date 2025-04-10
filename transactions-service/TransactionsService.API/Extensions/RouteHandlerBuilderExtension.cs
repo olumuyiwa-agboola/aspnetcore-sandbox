@@ -10,7 +10,7 @@ namespace TransactionsService.API.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="firstErrorOnly"></param>
         /// <returns></returns>
-        public static RouteHandlerBuilder ValidateDataAnnotations<T>(this RouteHandlerBuilder builder, bool firstErrorOnly = true)
+        public static RouteHandlerBuilder Validate<T>(this RouteHandlerBuilder builder, bool firstErrorOnly = true)
         {
             builder.AddEndpointFilter(async (invocationContext, next) =>
             {

@@ -1,6 +1,8 @@
 using Serilog;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http.Json;
 using Serilog.Sinks.SystemConsole.Themes;
 using TransactionsService.Data.DatabaseContexts;
 using TransactionsService.Core.Features.Validations;
@@ -20,6 +22,11 @@ namespace TransactionsService.API.Extensions
         /// <returns></returns>
         internal static WebApplication ConfigureServices(this WebApplicationBuilder builder)
         {
+            builder.Services.Configure<JsonOptions>(options =>
+            {
+                options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
+
             builder.Services.AddOpenApi(options =>
             {
                 options.AddDocumentTransformer((document, context, cancellationToken) =>
