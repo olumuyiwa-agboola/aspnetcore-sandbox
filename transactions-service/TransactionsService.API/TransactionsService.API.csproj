@@ -4,6 +4,7 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<TargetFramework>net9.0</TargetFramework>
+		<UserSecretsId>e4dcf204-1b60-438d-acd6-77f52725aaf1</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -18,12 +19,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\TransactionsService.Core\TransactionsService.Core.csproj" />
-	  <ProjectReference Include="..\TransactionsService.Data\TransactionsService.Data.csproj" />
+		<ProjectReference Include="..\TransactionsService.Core\TransactionsService.Core.csproj" />
+		<ProjectReference Include="..\TransactionsService.Data\TransactionsService.Data.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Handlers\" />
+		<Folder Include="Handlers\" />
 	</ItemGroup>
 
 </Project>
