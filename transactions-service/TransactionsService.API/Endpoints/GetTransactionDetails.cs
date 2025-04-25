@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TransactionsService.Core.Factories;
 using System.ComponentModel.DataAnnotations;
 using TransactionsService.Core.Models.Entities;
 using TransactionsService.Data.DatabaseContexts;
@@ -9,7 +10,6 @@ using TransactionsService.Core.Models.DTOs.ApiResponses;
 
 namespace TransactionsService.API.Endpoints
 {
-
     public class GetTransactionDetails
     {
         internal async static Task<IResult> HandleRequest([FromRoute, 
@@ -20,33 +20,13 @@ namespace TransactionsService.API.Endpoints
             var requestModelState = await new TransactionDetailsRequestValidator().ValidateAsync(new TransactionDetailsRequest(reference));
             
             if (!requestModelState.IsValid)
-            {
-                ProblemDetails validationFailureResult = new()
-                {
-                    Title = "Bad Request",
-                    Status = StatusCodes.Status400BadRequest,
-                    Detail = $"One or more validations failed."
-                };
-
-                validationFailureResult.Extensions.Add("Errors", requestModelState.Errors
-                    .Select(e => new { e.PropertyName, e.ErrorMessage })
-                    .ToList());
-
-                return TypedResults.BadRequest(validationFailureResult);
-            }
+                return TypedResults.BadRequest(ProblemDetailsFactory.CreateBadRequestResponseFromFluentValidationResult(requestModelState.Errors));
 
             Transaction? transaction = await _transactionsDbContext.Transactions
                 .FirstOrDefaultAsync(t => t.Reference == reference);
 
             if (transaction is null)
-            {
-                return TypedResults.NotFound(new ProblemDetails
-                {
-                    Title = "Transaction Not Found",
-                    Status = StatusCodes.Status404NotFound,
-                    Detail = $"Transaction with reference {reference} was not found."
-                });
-            }
+                return TypedResults.BadRequest(ProblemDetailsFactory.CreateNotFoundResponse("Transaction", "reference", reference));
 
             return TypedResults.Ok(new GetTransactionDetailsResponse(transaction));
         }

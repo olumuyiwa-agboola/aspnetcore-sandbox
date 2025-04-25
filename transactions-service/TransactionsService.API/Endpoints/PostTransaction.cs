@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
+using TransactionsService.Core.Factories;
 using TransactionsService.Core.Models.Enums;
 using TransactionsService.Core.Models.Entities;
 using TransactionsService.Data.DatabaseContexts;
@@ -15,22 +16,9 @@ namespace TransactionsService.API.Endpoints
             var modelState = await new PostTransactionRequestValidator().ValidateAsync(postTransactionRequest);
 
             if (!modelState.IsValid)
-            {
-                ProblemDetails validationFailureResult = new()
-                {
-                    Title = "Bad Request",
-                    Status = StatusCodes.Status400BadRequest,
-                    Detail = $"One or more validations failed."
-                };
+                return TypedResults.BadRequest(ProblemDetailsFactory.CreateBadRequestResponseFromFluentValidationResult(modelState.Errors));
 
-                validationFailureResult.Extensions.Add("Errors", modelState.Errors
-                    .Select(e => new { e.PropertyName, e.ErrorMessage })
-                    .ToList());
-
-                return TypedResults.BadRequest(validationFailureResult);
-            }
-
-            var now = DateTime.UtcNow;
+            var now = DateTime.Now;
 
             Transaction transaction = new()
             {
@@ -51,18 +39,10 @@ namespace TransactionsService.API.Endpoints
             };
 
             _transactionsDbContext.Add(transaction);
-            
             int dbResult = _transactionsDbContext.SaveChanges();
 
             if (dbResult != 1)
-            {
-                return TypedResults.Problem(new ProblemDetails
-                {
-                    Title = "Internal Server Error",
-                    Status = StatusCodes.Status500InternalServerError,
-                    Detail = "An error occurred while posting the transaction."
-                });
-            }
+                return TypedResults.Problem(ProblemDetailsFactory.CreateInternalServerErrorResponse("An error occurred while posting the transaction"));
 
             PostTransactionResponse postTransactionResponse = new(transaction.Reference, transaction.Status);
 
