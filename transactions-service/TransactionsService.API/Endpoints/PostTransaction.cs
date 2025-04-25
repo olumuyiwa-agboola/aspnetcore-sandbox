@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
-using TransactionsService.Core.Models.DTOs;
 using TransactionsService.Core.Models.Enums;
 using TransactionsService.Core.Models.Entities;
 using TransactionsService.Data.DatabaseContexts;
-using TransactionsService.Core.Features.Validations;
+using TransactionsService.Core.Models.DTOs.ApiRequests;
+using TransactionsService.Core.Models.DTOs.ApiResponses;
 
 namespace TransactionsService.API.Endpoints
 {

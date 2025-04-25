@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TransactionsService.Core.Models.DTOs;
 using System.ComponentModel.DataAnnotations;
 using TransactionsService.Core.Models.Entities;
 using TransactionsService.Data.DatabaseContexts;
-using TransactionsService.Core.Features.Validations;
+using TransactionsService.Core.Models.DTOs.ApiRequests;
 
 namespace TransactionsService.API.Endpoints
 {

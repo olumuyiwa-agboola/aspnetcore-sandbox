@@ -5,8 +5,8 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
 using Serilog.Sinks.SystemConsole.Themes;
 using TransactionsService.Data.DatabaseContexts;
-using TransactionsService.Core.Features.Validations;
-using TransactionsService.Core.Utilities.Configuration;
+using TransactionsService.Core.Models.Configuration;
+using TransactionsService.Core.Models.DTOs.ApiRequests;
 
 namespace TransactionsService.API.Extensions
 {

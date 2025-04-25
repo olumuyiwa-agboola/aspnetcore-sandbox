@@ -1,7 +1,7 @@
-﻿using System.ComponentModel;
+﻿using FluentValidation;
 using TransactionsService.Core.Models.Enums;
 
-namespace TransactionsService.Core.Models.DTOs
+namespace TransactionsService.Core.Models.DTOs.ApiRequests
 {
     public record PostTransactionRequest
     (
@@ -23,4 +23,11 @@ namespace TransactionsService.Core.Models.DTOs
 
         decimal Amount
     );
+
+    public class PostTransactionRequestValidator : AbstractValidator<PostTransactionRequest>
+    {
+        public PostTransactionRequestValidator()
+        {
+        }
+    }
 }

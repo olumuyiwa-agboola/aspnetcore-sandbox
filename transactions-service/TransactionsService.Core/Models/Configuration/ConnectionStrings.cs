@@ -1,8 +1,14 @@
-using FluentValidation;
-using TransactionsService.Core.Utilities.Configuration;
+﻿using FluentValidation;
 
-namespace TransactionsService.Core.Features.Validations
+namespace TransactionsService.Core.Models.Configuration
 {
+    public class ConnectionStrings
+    {
+        public const string ConfigSection = "ConnectionStrings";
+
+        public string? TransactionsDbConnectionString { get; init; }
+    }
+
     public class ConnectionStringsValidator : AbstractValidator<ConnectionStrings>
     {
         public ConnectionStringsValidator()
