@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using TransactionsService.Core.Models.Entities;
 using TransactionsService.Data.DatabaseContexts;
 using TransactionsService.Core.Models.DTOs.ApiRequests;
+using TransactionsService.Core.Models.DTOs.ApiResponses;
 
 namespace TransactionsService.API.Endpoints
 {
@@ -47,7 +48,7 @@ namespace TransactionsService.API.Endpoints
                 });
             }
 
-            return TypedResults.Ok(transaction);
+            return TypedResults.Ok(new GetTransactionDetailsResponse(transaction));
         }
     }
 }
